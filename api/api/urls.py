@@ -16,7 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from core.views import CoreViewSet
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('fields/', CoreViewSet.as_view({'get': 'get_fields'}), name='get_fields'),
+    path('loan/', CoreViewSet.as_view({'post': 'save_loan'}), name='save_loan'),
+    path('uuid/', CoreViewSet.as_view({'get': 'get_uuid'}), name='get_uuid'),
+    path('loans/<str:uuid>', CoreViewSet.as_view({'get': 'get_loans'}), name='get_my_loans'),
 ]
