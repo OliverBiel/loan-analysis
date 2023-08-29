@@ -1,11 +1,11 @@
-from typing import Sequence
+from typing import Any, Optional, Sequence
 from django.contrib import admin
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.contrib.admin.decorators import action
 
 from .forms import LoanForm
-from .models import Field, Loan
+from .models import STATUS_CHOICE, Field, Loan
 
 
 @admin.register(Field)
@@ -49,3 +49,6 @@ class LoanAdmin(admin.ModelAdmin):
 
         return super().change_view(request, object_id, form_url, extra_context=extra_context)
 
+    def has_add_permission(self, request, obj=None):
+        return False
+    
