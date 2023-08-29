@@ -13,23 +13,6 @@ import { ApiService } from 'src/app/services/api.service';
 export class FormComponent implements OnInit, OnChanges{
   @Input() fields!: Field[];
 
-  FIELDS_MAPPING: any = {
-    'text': new FormControl(null, [
-      Validators.maxLength(150)]),
-    'number': new FormControl(null, [
-      Validators.min(0),
-      Validators.max(1000000000)]),
-    'date': new FormControl(null, []),
-    'email': new FormControl(null, [
-      Validators.email, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
-    'phone': new FormControl(null, [
-      Validators.pattern('^[0-9]*$'),
-      Validators.minLength(10),
-      Validators.maxLength(10)]),
-    'textarea': new FormControl(null, [
-      Validators.maxLength(500)]),
-  };
-
   form = new FormGroup({});
   messsage: string = '';
   showMessage: boolean = false;
@@ -43,18 +26,37 @@ export class FormComponent implements OnInit, OnChanges{
 
   ngOnChanges(): void {
     this.fields.forEach(field => {
-      this.form.addControl(field.name, this.FIELDS_MAPPING[field.type]);
+      this.form.addControl(field.name, new FormControl(null, []));
       if (field.required) {
         (this.form.controls as FormControl[])[field.name as any].setValidators([Validators.required]);
+      }
+
+      if (field.type === 'email') {
+        (this.form.controls as FormControl[])[field.name as any].setValidators([Validators.email]);
+      }
+
+      if (field.type === 'textarea') {
+        (this.form.controls as FormControl[])[field.name as any].setValidators([Validators.maxLength(500)]);
+      }
+
+      if (field.type === 'phone') {
+        (this.form.controls as FormControl[])[field.name as any].setValidators([
+          Validators.pattern('^[0-9]*$'),
+          Validators.minLength(10),
+          Validators.maxLength(10)
+        ]);
       }
     });
   }
 
   ngOnInit(): void {
+    console.log(this.form);
+    console.log(this.form.value);
   }
 
   onSubmit() {
     const user_uuid = this.cookieService.get('user_uuid');
+    console.log(this.form.value);
     
     const form: Form = {
       userUUID: user_uuid,

@@ -5,13 +5,13 @@
 
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
     <div class="input-container" *ngFor=" let field of fields; let i = index;">
-        <label>
+        <label for="{{field.name}}">
             {{field.label}}
             <span *ngIf="field.required" class="required">*</span>
         </label>
-        <input type="{{field.type}}" [formControlName]="field.name" *ngIf="field.type != 'textarea'; else textarea">
+        <input type="{{field.type}}" [formControlName]="field.name" *ngIf="field.type != 'textarea'; else textarea" id="{{field.name}}">
         <ng-template #textarea>
-            <textarea [formControlName]="field.name"></textarea>
+            <textarea [formControlName]="field.name" id="{{field.name}}"></textarea>
         </ng-template>
         <span *ngIf="field.help_text" class="help_text">{{field.help_text}}</span>
         <ng-container *ngIf="!getErrorMessage($any(form).get(field.name))">
