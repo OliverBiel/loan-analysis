@@ -28,7 +28,7 @@ class BaseModel(models.Model):
         abstract = True
 
 class Field(BaseModel):     # Model para cada um dos campos, para montar o form eu obtenho todos os objetos dessa model que estejam ativos (enabled)
-    name = models.CharField(max_length=255, null=False, blank=False)
+    name = models.CharField(max_length=255, null=False, blank=False, unique=True)
     type = models.CharField(max_length=255, null=False, blank=False, choices=TYPES_CHOICES)
     label = models.CharField(max_length=255, null=False, blank=False)
     help_text = models.CharField(max_length=255, null=True, blank=True)
