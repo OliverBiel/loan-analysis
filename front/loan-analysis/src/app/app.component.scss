@@ -1,0 +1,21 @@
+div.container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 1000px;
+    padding: 20px;
+
+    h1 {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    div.loan-container {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        width: 100%;
+    }
+}
