@@ -1,0 +1,16 @@
+<h2>Dados do usuário</h2>
+
+{% for field in my_fields %}
+    <div class="form-row{% if field.errors %} errors{% endif %}">
+
+        <div class="field-box{% if field.errors %} errors{% endif %}">
+            <label for="{{field.name}}">
+                {{field.label}}
+            </label>
+            <input type="{{field.type}}" value="{{field.value}}" disabled>
+            {% if field.help_text %}
+                <p class="help">{{ field.help_text|safe }}</p>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
