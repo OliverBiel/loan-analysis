@@ -1,8 +1,8 @@
-from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple, Union
+from typing import Sequence
 from django.contrib import admin
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
-from django.template.response import TemplateResponse
+from django.contrib.admin.decorators import action
 
 from .forms import LoanForm
 from .models import Field, Loan
@@ -13,6 +13,16 @@ class FieldAdmin(admin.ModelAdmin):
     list_display = ('name', 'type', 'label', 'help_text', 'required', 'order', 'enabled')
     list_filter = ('type', 'required', 'enabled')
     search_fields = ('name', 'label', 'help_text')
+
+    @action(description='Enable selected fields')
+    def enable_fields(self, request: HttpRequest, queryset: Sequence[Field]) -> None:
+        queryset.update(enabled=True)
+
+    @action(description='Disable selected fields')
+    def disable_fields(self, request: HttpRequest, queryset: Sequence[Field]) -> None:
+        queryset.update(enabled=False)
+    
+    actions = ['enable_fields', 'disable_fields']
 
 
 @admin.register(Loan)
