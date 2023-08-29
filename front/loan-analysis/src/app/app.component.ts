@@ -12,6 +12,7 @@ import { uuid } from './models/uuid';
 export class AppComponent {
   title = 'loan-analysis';
   form: Field[] = [];
+  uuid: string = '';
 
   constructor(
     private apiService: ApiService,
@@ -19,15 +20,15 @@ export class AppComponent {
   ) { }
 
   ngOnInit(): void {
+    this.apiService.fetchUUID();
+    this.apiService.uuid.subscribe((uuid: string) => {
+      this.uuid = uuid;
+    });
+
+    this.apiService.fetchLoans(this.uuid);
+
     this.apiService.getFields().subscribe((fields: Field[] | {}) => {
       this.form = fields as Field[];
     });
-
-    if (this.cookieService.get('user_uuid') === '') {
-      this.apiService.getUUID().subscribe((uuid: uuid) => {
-        this.cookieService.set('user_uuid', uuid.user_uuid, { expires: 365, path: '/', sameSite: 'Strict'});
-      })
-    }
-
   }
 }

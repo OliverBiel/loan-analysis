@@ -17,6 +17,7 @@ export class ApiService {
   ) { }
 
   loans: BehaviorSubject<Loan[] | {}> = new BehaviorSubject<Loan[] | {}>([] as Loan[]);
+  uuid: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   getFields(): Observable<Field[] | {}> {
     return this.http.get<Field[] | {}>(environment.apiUrl + '/fields/');
@@ -24,6 +25,12 @@ export class ApiService {
 
   getUUID(): Observable<uuid> {
     return this.http.get<uuid>(environment.apiUrl + '/uuid/');
+  }
+
+  fetchUUID() {
+    this.getUUID().subscribe((response: any) => {
+      this.uuid.next(response.user_uuid);
+    });
   }
 
   postForm(form: Form): Observable<any> {

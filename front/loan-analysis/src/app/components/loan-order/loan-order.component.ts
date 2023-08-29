@@ -18,17 +18,20 @@ export class LoanOrderComponent {
 
   timeInterval!: Subscription;
   loans: Loan[] = [];
+  user_uuid: string = '';
 
   ngOnInit(): void {
-    const user_uuid = this.cookieService.get('user_uuid');
+    this.apiService.uuid.subscribe((uuid: string) => {
+      this.user_uuid = uuid;
+    });
     this.apiService.loans.subscribe((loans: Loan[]|{}) => {
       this.loans = loans as Loan[];
     });
 
-    this.apiService.fetchLoans(user_uuid);
+    this.apiService.fetchLoans(this.user_uuid);
 
     this.timeInterval = interval(10000).subscribe(() => {
-      this.apiService.fetchLoans(user_uuid);
+      this.apiService.fetchLoans(this.user_uuid);
     });
 
   }

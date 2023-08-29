@@ -18,6 +18,7 @@ export class FormComponent implements OnInit, OnChanges{
   showMessage: boolean = false;
   info: string = '';
   error: string = '';
+  user_uuid: string = '';
 
   constructor(
     private cookieService: CookieService,
@@ -50,22 +51,22 @@ export class FormComponent implements OnInit, OnChanges{
   }
 
   ngOnInit(): void {
-    console.log(this.form);
-    console.log(this.form.value);
+    this.apiService.uuid.subscribe((uuid: string) => {
+      this.user_uuid = uuid;
+    });
   }
 
   onSubmit() {
-    const user_uuid = this.cookieService.get('user_uuid');
     console.log(this.form.value);
     
     const form: Form = {
-      userUUID: user_uuid,
+      userUUID: this.user_uuid,
       data: this.form.value,
     }
 
     this.apiService.postForm(form).subscribe((response: any) => {
       this.form.reset();
-      this.apiService.fetchLoans(user_uuid);
+      this.apiService.fetchLoans(this.user_uuid);
     }, (error) => {
       for (let key of Object.keys(error.error.message)) {
         this.error += `${key}: ${error.error.message[key]}`;
