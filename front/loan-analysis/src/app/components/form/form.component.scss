@@ -1,0 +1,97 @@
+:host {
+    width: 100%;
+}
+
+form {
+    div.input-container {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+      width: 100%;
+    
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+    
+        input, textarea {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            padding: 10px;
+            width: 100%;
+
+            &:focus {
+                border: 1px solid #4CAF50;
+            }
+
+            &:hover {
+                border: 1px solid #4CAF50;
+            }
+        }
+    
+        input:focus, textarea:focus {
+            outline: none;
+        }
+    
+        span.required {
+            color: red;
+        }
+    
+        span.help_text {
+            color: #999;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    }
+
+    button {
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        margin-top: 20px;
+        padding: 10px;
+        width: 100%;
+
+        &:hover {
+            background-color: #45a049;
+        }
+    }
+
+    button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+
+    textarea {
+        min-height: 100px;
+    }
+}
+
+div.message{
+    margin: 20px 0px;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+
+    .info {
+        color: #4CAF50;
+    }
+
+    .error {
+        color: red;
+    }
+}
+
