@@ -24,11 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-xk=yoqvc$b#jkx9)fj&wb@u)35^@2i(84cu4u08cls-6s1(zn0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = ['*']
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default="localhost,127.0.0.1").replace(' ', '').split(',')
+CORS_ORIGIN_ALLOW_ALL = config('CORS_ORIGIN_ALLOW_ALL', default=False, cast=bool)
+CORS_ORIGIN_WHITELIST = config('CORS_ORIGIN_WHITELIST', default="http://localhost,http://127.0.0.1").replace(' ', '').split(',')
+CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default="http://localhost,http://127.0.0.1").replace(' ', '').split(',')
 
 # Application definition
 
