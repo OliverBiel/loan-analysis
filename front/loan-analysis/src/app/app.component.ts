@@ -20,9 +20,15 @@ export class AppComponent {
   ) { }
 
   ngOnInit(): void {
-    this.apiService.fetchUUID();
+    if (this.cookieService.get('user_uuid') === '') {
+      this.apiService.fetchUUID();
+    } else {
+      this.apiService.uuid.next(this.cookieService.get('user_uuid'));
+    }
+
     this.apiService.uuid.subscribe((uuid: string) => {
       this.uuid = uuid;
+      this.cookieService.set('user_uuid', uuid);
     });
 
     this.apiService.fetchLoans(this.uuid);

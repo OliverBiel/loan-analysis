@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { uuid } from '../models/uuid';
 import { Form } from '../models/form';
 import { Loan } from '../models/loan';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class ApiService {
 
   constructor(
     private http: HttpClient,
+    private cookieService: CookieService,
   ) { }
 
   loans: BehaviorSubject<Loan[] | {}> = new BehaviorSubject<Loan[] | {}>([] as Loan[]);
@@ -28,8 +30,9 @@ export class ApiService {
   }
 
   fetchUUID() {
-    this.getUUID().subscribe((response: any) => {
+    this.getUUID().subscribe((response: uuid) => {
       this.uuid.next(response.user_uuid);
+      this.cookieService.set('user_uuid', response.user_uuid);
     });
   }
 
