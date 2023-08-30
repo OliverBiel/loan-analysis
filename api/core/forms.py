@@ -13,23 +13,6 @@ CHOICE_INPUT_MAPPING = {
     'textarea': forms.CharField,
 }
 
-class LoanForm(forms.ModelForm):
-    '''
-    Formulário para o modelo Loan no Admin
-    '''
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        if self.instance and self.instance.data and self.instance.status in ['2', '0']:  # Se o status for 'Em análise' ou 'Reprovado':
-            self.fields['avaliation'].widget.attrs['readonly'] = True
-            self.fields['avaliation'].widget.attrs['disabled'] = True
-            self.fields['status'].widget.attrs['readonly'] = True
-            self.fields['status'].widget.attrs['disabled'] = True
-
-    class Meta:
-        model = Loan
-        exclude = ('user_uuid', 'created_at', 'updated_at', 'data')
 
 class FieldsForm(forms.Form):
     '''

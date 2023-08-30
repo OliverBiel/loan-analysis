@@ -4,7 +4,6 @@ from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.contrib.admin.decorators import action
 
-from .forms import LoanForm
 from .models import STATUS_CHOICE, Field, Loan
 
 
@@ -30,7 +29,7 @@ class LoanAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'status')
     list_filter = ('status',)
     search_fields = ('user_uuid',)
-    form = LoanForm
+    exclude = ['data']
     change_form_template = 'change_form.html'
 
     
@@ -51,4 +50,11 @@ class LoanAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request, obj=None):
         return False
+
+    def has_change_permission(self, request: HttpRequest, obj=None) -> bool:
+        if obj is not None and (obj.status == STATUS_CHOICE[0][0] or obj.status == STATUS_CHOICE[2][0]):
+            return False
     
+        else:
+            return super().has_change_permission(request, obj)
+        
