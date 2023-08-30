@@ -131,6 +131,7 @@ class CoreViewSet(viewsets.ModelViewSet):
                 'id': loan.get('id'),
                 'status': STATUS_CHOICE[int(loan.get('status'))][1],
                 'updated_at': str(loan.get('updated_at')),
+                'avaliation': loan.get('avaliation') if loan.get('avaliation') else ''
             } for loan in response.data]
 
             return Response(response, status=status.HTTP_200_OK)
