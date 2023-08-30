@@ -89,9 +89,9 @@ class CoreViewSet(viewsets.ModelViewSet):
             data = request.data
 
             form = FieldsForm(data=data['data'], fields=active_fields)
-            print(f"Form data: {form.data}")
-            print(f"Data: {data}")
-            print(f"Fields: {form.fields}")
+
+            if data['data'].keys() != form.fields.keys():   # Verifica se possui campos inválidos
+                return Response({'error': 'Erro ao validar formulário', 'message': 'Campos inválidos'}, status=status.HTTP_400_BAD_REQUEST)
 
             if not form.is_valid():
                 print(f"Errors: {form.errors}")
