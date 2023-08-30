@@ -3,5 +3,6 @@ WORKDIR /app
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 COPY . .
-RUN chmod +x entrypoint.sh
+RUN sed -i -e 's/\r$//' entrypoint.sh && \
+    chmod +x entrypoint.sh
 ENTRYPOINT [ "/app/entrypoint.sh" ]
