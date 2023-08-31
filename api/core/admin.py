@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.contrib.admin.decorators import action
+from datetime import datetime
 
 from .models import STATUS_CHOICE, Field, Loan
 
@@ -43,7 +44,7 @@ class LoanAdmin(admin.ModelAdmin):
         if data:
             fields = data.get('form')
             for field in fields:
-                field['value'] = data['data'][field['name']]
+                field['value'] = data['data'][field['name']] if field['type'] != 'date' else datetime.strptime(data['data'][field['name']], '%Y-%m-%d').strftime('%d/%m/%Y')
             extra_context['my_fields'] = fields
 
         return super().change_view(request, object_id, form_url, extra_context=extra_context)
